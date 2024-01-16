@@ -20,21 +20,23 @@ def make_selection():
     elif conversion_selection == 2:
         print()
         print('UNIT CONVERSION\n')
-        unit_from = input("Enter a unit you would like to convert from :")
-        unit_to = input("Enter a unit you would like to convert to :")
+        unit_from = input("Enter a unit you would like to convert from :").lower()
+        unit_to = input("Enter a unit you would like to convert to :").lower()
         value = int(input(f"Enter the amount of {unit_from} to convert to {unit_to} :"))
         unit_conversion = Calculator(unit_from, unit_to, value)
-        return unit_conversion.test()
+        return unit_conversion.make_conversion()
     else:
         print("Wrong input!")
 
 def repeat():
-    answer = input("Would you like to make another conversion?\n").lower()
+    print()
+    answer = input("Would you like to make another conversion? (yes/no)\n").lower()
     
     if answer == 'yes':
         start_up()
     else:
-        print("Thank you for using the CONVERSION TOOL")
+        print()
+        print("Thank you for using the CONVERSION TOOL\n")
 
 def calculate_currency():
     print()
@@ -64,7 +66,7 @@ def calculate_currency():
  
 class Calculator:
     """
-    Takes the values and makes the conversions
+    Takes the values and units and makes the conversion.
     """
     
     def __init__(self, unit_from, unit_to, value):
@@ -73,8 +75,17 @@ class Calculator:
         self.unit_to = unit_to
         self.value = value
     
-    def test(self):
-        print(f'{self.value}{self.unit_from} is {self.unit_to}')    
+    def make_conversion(self):
+        """
+        Takes the units and the value entered from the user to make the conversion.
+        """    
+        if self.unit_from == 'kilometres' and self.unit_to == 'metre':
+            converted_value = self.value * 1000
+        elif self.unit_from == 'kilometres' and self.unit_to == 'miles':
+            converted_value = self.value * 0.6214
+        
+        print(f'{self.value} {self.unit_from}  =  {converted_value:.2f} {self.unit_to}')
+        
         repeat()
     
 
