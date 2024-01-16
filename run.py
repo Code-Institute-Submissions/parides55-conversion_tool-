@@ -1,4 +1,4 @@
-def start_up():
+def make_selection():
     CONVERSINOS = [
         ('(1)', 'Currency'),
         ('(2)', 'Distance'),
@@ -7,9 +7,7 @@ def start_up():
         ('(5)', 'Volume'),
         ('(6)', 'Area'),
     ]
-
-    print("CONVERSION TOOL")
-    print()
+    
     print("What would you like to convert?")
     print()
 
@@ -35,22 +33,34 @@ def start_up():
         print("Wrong input!")
 
 def calculate_currency():
+     print()
      print('Currency')
 
 def calculate_distance():
+     print()
      print('Distance')
      
 def calculate_weight():
+     print()
      print('Weight')
      
 def calculate_speed():
+     print()
      print('Speed')
      
 def calculate_volume():
+     print()
      print('Volume')
      
 def calculate_area():
+    print()
     print('Area')
+ 
+ 
      
+def start_up():
+    make_selection()
+    
+print("CONVERSION TOOL")
+print()
 start_up()
-     
