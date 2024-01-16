@@ -1,3 +1,5 @@
+import requests
+
 def make_selection():
     CONVERSINOS = [
         ('(1)', 'Currency'),
@@ -33,12 +35,32 @@ def make_selection():
         print("Wrong input!")
 
 def calculate_currency():
-     print()
-     print('Currency')
+    print()
+    print('CURRENCY CONVERSION\n')
+     
+    from_rate = str(
+         input("Enter the currency code you would like to convert from (eg.EUR) :").upper()
+     )
+     
+    to_rate = str(
+        input("Enter the currency code you would like to convert to (eg.USD) :").upper()
+    )
+    
+    amount = float(
+        input(f'Enter the amount of {from_rate} you would like to convert to {to_rate} :')
+    )
+    
+    amount_converted = requests.get(
+        f'https://api.frankfurter.app/latest?amount={amount}&from={from_rate}&to={to_rate}'
+    )
+    
+    print(
+        f"{amount} {from_rate} is {amount_converted.json()['rates'][to_rate]} {to_rate}"
+    )
 
 def calculate_distance():
-     print()
-     print('Distance')
+    print()
+    print('Distance')
      
 def calculate_weight():
      print()
