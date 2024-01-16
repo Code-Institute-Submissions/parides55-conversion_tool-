@@ -1,6 +1,9 @@
 import requests
 
 def make_selection():
+    """
+    This function gives selections to the user to choose what conversion to use.
+    """
     CONVERSINOS = [
         ('(1)', 'Currency Conversion'),
         ('(2)', 'Unit Conversion'),
@@ -29,6 +32,10 @@ def make_selection():
         print("Wrong input!")
 
 def repeat():
+    """
+    A function which is called after every conversion is made and gives the option to
+    the user to choose to continue making another conversion or exit the program. 
+    """
     print()
     answer = input("Would you like to make another conversion? (yes/no)\n").lower()
     
@@ -39,6 +46,10 @@ def repeat():
         print("Thank you for using the CONVERSION TOOL\n")
 
 def calculate_currency():
+    """
+    Takes the currency codes and the value that the user wants to convert
+    and makes the conversion using the frankfurter API.
+    """
     print()
     print('CURRENCY CONVERSION\n')
      
