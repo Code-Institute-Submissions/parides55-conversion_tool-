@@ -2,12 +2,8 @@ import requests
 
 def make_selection():
     CONVERSINOS = [
-        ('(1)', 'Currency'),
-        ('(2)', 'Distance'),
-        ('(3)', 'Weight'),
-        ('(4)', 'Speed'),
-        ('(5)', 'Volume'),
-        ('(6)', 'Area'),
+        ('(1)', 'Currency Conversion'),
+        ('(2)', 'Unit Conversion'),
     ]
     
     print("What would you like to convert?")
@@ -22,17 +18,23 @@ def make_selection():
     if conversion_selection == 1:
         calculate_currency()
     elif conversion_selection == 2:
-        calculate_distance()
-    elif conversion_selection == 3:
-        calculate_weight()
-    elif conversion_selection == 4:
-        calculate_speed()
-    elif conversion_selection == 5:
-        calculate_volume()
-    elif conversion_selection == 6:
-        calculate_area()
+        print()
+        print('UNIT CONVERSION\n')
+        unit_from = input("Enter a unit you would like to convert from :")
+        unit_to = input("Enter a unit you would like to convert to :")
+        value = int(input(f"Enter the amount of {unit_from} to convert to {unit_to} :"))
+        unit_conversion = Calculator(unit_from, unit_to, value)
+        return unit_conversion.test()
     else:
         print("Wrong input!")
+
+def repeat():
+    answer = input("Would you like to make another conversion?\n").lower()
+    
+    if answer == 'yes':
+        start_up()
+    else:
+        print("Thank you for using the CONVERSION TOOL")
 
 def calculate_currency():
     print()
@@ -57,32 +59,32 @@ def calculate_currency():
     print(
         f"{amount} {from_rate} is {amount_converted.json()['rates'][to_rate]} {to_rate}"
     )
+    
+    repeat()
+ 
+class Calculator:
+    """
+    Takes the values and makes the conversions
+    """
+    
+    def __init__(self, unit_from, unit_to, value):
+        # properties
+        self.unit_from = unit_from
+        self.unit_to = unit_to
+        self.value = value
+    
+    def test(self):
+        print(f'{self.value}{self.unit_from} is {self.unit_to}')    
+        repeat()
+    
 
-def calculate_distance():
-    print()
-    print('Distance')
-     
-def calculate_weight():
-     print()
-     print('Weight')
-     
-def calculate_speed():
-     print()
-     print('Speed')
-     
-def calculate_volume():
-     print()
-     print('Volume')
-     
-def calculate_area():
-    print()
-    print('Area')
- 
- 
-     
+        
 def start_up():
-    make_selection()
+    """
+    Run all programms
+    """
+    make_selection()        
     
 print("CONVERSION TOOL")
 print()
-start_up()
+start_up()    
