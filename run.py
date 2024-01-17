@@ -19,14 +19,14 @@ def make_selection():
             print(f'{num} -- {conversion}')
             
         print()
-        conversion_selection = int(input('Select a number:\n'))
+        conversion_selection = input('Select a number:\n')
         if validate_conversion_selection(conversion_selection):
             print("Valid selection")
 
-        if conversion_selection == 1:
+        if conversion_selection == '1':
             calculate_currency()
             break
-        elif conversion_selection == 2:
+        elif conversion_selection == '2':
             print()
             print('UNIT CONVERSION\n')
             unit_from = input("Enter a unit you would like to convert from :")
@@ -43,9 +43,9 @@ def validate_conversion_selection(selection):
     Validates the initial user input to choose which conversion to run 
     """
     try:
-        if selection != 1 and selection !=2:
+        if selection != '1' and selection != '2' or isinstance(selection, str):
             raise ValueError(
-                f'Please select 1 for Curency Conversion or 2 for Unit Conversion. You have selected {selection}'
+                f'Please select "1" for Curency Conversion or "2" for Unit Conversion. You have selected "{selection}"'
                 )
     except ValueError as e:
         print(f'Wrong ipnut! {e}')
