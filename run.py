@@ -3,33 +3,55 @@ import requests
 def make_selection():
     """
     This function gives selections to the user to choose what conversion to use.
+    Also, validates the selection made from the user by calling the 
+    validate_conversion_selection function.
     """
     CONVERSINOS = [
         ('(1)', 'Currency Conversion'),
         ('(2)', 'Unit Conversion'),
     ]
     
-    print("What would you like to convert?")
-    print()
-
-    for num, conversion in CONVERSINOS:
-        print(f'{num} -- {conversion}')
-        
-    print()
-    conversion_selection = int(input('Select a number:\n'))
-
-    if conversion_selection == 1:
-        calculate_currency()
-    elif conversion_selection == 2:
+    while True:
+        print("What would you like to convert?")
         print()
-        print('UNIT CONVERSION\n')
-        unit_from = input("Enter a unit you would like to convert from :").lower()
-        unit_to = input("Enter a unit you would like to convert to :").lower()
-        value = int(input(f"Enter the amount of {unit_from} to convert to {unit_to} :"))
-        unit_conversion = Calculator(unit_from, unit_to, value)
-        return unit_conversion.make_conversion()
-    else:
-        print("Wrong input!")
+
+        for num, conversion in CONVERSINOS:
+            print(f'{num} -- {conversion}')
+            
+        print()
+        conversion_selection = int(input('Select a number:\n'))
+        if validate_conversion_selection(conversion_selection):
+            print("Valid selection")
+
+        if conversion_selection == 1:
+            calculate_currency()
+            break
+        elif conversion_selection == 2:
+            print()
+            print('UNIT CONVERSION\n')
+            unit_from = input("Enter a unit you would like to convert from :")
+            unit_to = input("Enter a unit you would like to convert to :")
+            value = int(input(f"Enter the amount of {unit_from} to convert to {unit_to} :"))
+            to_calculate = Calculator(unit_from, unit_to, value)
+            to_calculate.make_conversion()
+            break
+        
+    return conversion_selection
+    
+def validate_conversion_selection(selection):
+    """
+    Validates the initial user input to choose which conversion to run 
+    """
+    try:
+        if selection != 1 and selection !=2:
+            raise ValueError(
+                f'Please select 1 for Curency Conversion or 2 for Unit Conversion. You have selected {selection}'
+                )
+    except ValueError as e:
+        print(f'Wrong ipnut! {e}')
+        return False
+    
+    return True
 
 def repeat():
     """
