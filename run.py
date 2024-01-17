@@ -67,33 +67,20 @@ def calculate_currency():
     print('CURRENCY CONVERSION\n')
     
     url = "https://api.frankfurter.app/currencies"
-
     response_currencies = requests.request("GET", url)
     dict_currency = json.loads(response_currencies.text)
     list_currency = list(dict_currency.keys())
-    print('Available Currency Codes to use')
+    print('Available Currency Codes to use\n')
     print(list_currency)
     print()
      
-    from_rate = str(
-         input("Enter the currency code you would like to convert from (eg.EUR) :").upper()
-     )
-     
-    to_rate = str(
-        input("Enter the currency code you would like to convert to (eg.USD) :").upper()
-    )
+    from_rate = str(input("Enter the currency code you would like to convert from (eg.EUR) :").upper())
+    to_rate = str(input("Enter the currency code you would like to convert to (eg.USD) :").upper())
+    # validate_currency_inputs()
+    amount = float(input(f'Enter the amount of {from_rate} you would like to convert to {to_rate} :'))
+    amount_converted = requests.get(f'https://api.frankfurter.app/latest?amount={amount}&from={from_rate}&to={to_rate}')
     
-    amount = float(
-        input(f'Enter the amount of {from_rate} you would like to convert to {to_rate} :')
-    )
-    
-    amount_converted = requests.get(
-        f'https://api.frankfurter.app/latest?amount={amount}&from={from_rate}&to={to_rate}'
-    )
-    
-    print(
-        f"{amount} {from_rate} is {amount_converted.json()['rates'][to_rate]} {to_rate}"
-    )
+    print(f"{amount} {from_rate} is {amount_converted.json()['rates'][to_rate]} {to_rate}")
     
     repeat()
  
@@ -107,6 +94,7 @@ class Calculator:
         self.unit_from = unit_from
         self.unit_to = unit_to
         self.value = value
+        # validate_conversion_inputs()
     
     def make_conversion(self):
         """
