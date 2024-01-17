@@ -1,4 +1,5 @@
 import requests
+import json
 
 def make_selection():
     """
@@ -6,18 +7,8 @@ def make_selection():
     Also, validates the selection made from the user by calling the 
     validate_conversion_selection function.
     """
-    CONVERSINOS = [
-        ('(1)', 'Currency Conversion'),
-        ('(2)', 'Unit Conversion'),
-    ]
     
-    while True:
-        print("What would you like to convert?")
-        print()
-
-        for num, conversion in CONVERSINOS:
-            print(f'{num} -- {conversion}')
-            
+    while True:        
         print()
         conversion_selection = input('Select a number:\n')
         if validate_conversion_selection(conversion_selection):
@@ -43,12 +34,12 @@ def validate_conversion_selection(selection):
     Validates the initial user input to choose which conversion to run 
     """
     try:
-        if selection != '1' and selection != '2' or isinstance(selection, str):
+        if selection != '1' and selection != '2' or isinstance(selection, str) == False:
             raise ValueError(
-                f'Please select "1" for Curency Conversion or "2" for Unit Conversion. You have selected "{selection}"'
+                f'Please select 1 for Curency Conversion or 2 for Unit Conversion. You have selected "{selection}"'
                 )
     except ValueError as e:
-        print(f'Wrong ipnut! {e}')
+        print(f'Invalid Selection! {e}')
         return False
     
     return True
@@ -74,6 +65,15 @@ def calculate_currency():
     """
     print()
     print('CURRENCY CONVERSION\n')
+    
+    url = "https://api.frankfurter.app/currencies"
+
+    response_currencies = requests.request("GET", url)
+    dict_currency = json.loads(response_currencies.text)
+    list_currency = list(dict_currency.keys())
+    print('Available Currency Codes to use')
+    print(list_currency)
+    print()
      
     from_rate = str(
          input("Enter the currency code you would like to convert from (eg.EUR) :").upper()
@@ -127,6 +127,16 @@ def start_up():
     """
     Run all programms
     """
+    CONVERSINOS = [
+        ('(1)', 'Currency Conversion'),
+        ('(2)', 'Unit Conversion'),
+    ]
+    
+    print("What would you like to convert?")
+    print()
+
+    for num, conversion in CONVERSINOS:
+        print(f'{num} -- {conversion}')
     make_selection()        
     
 print("CONVERSION TOOL")
