@@ -3,9 +3,9 @@ import json
 
 def make_selection():
     """
-    This function gives selections to the user to choose what conversion to use.
-    Also, validates the selection made from the user by calling the 
-    validate_conversion_selection function.
+    This function takes user's selections, 
+    validates the selection made from the user by calling the validate_conversion_selection function 
+    and calls the approprite conversion function.
     """
     
     while True:        
@@ -31,7 +31,7 @@ def make_selection():
     
 def validate_conversion_selection(selection):
     """
-    Validates the initial user input to choose which conversion to run 
+    Validates the user's input.
     """
     try:
         if selection != '1' and selection != '2' or isinstance(selection, str) == False:
@@ -112,16 +112,23 @@ class Calculator:
         """
         Takes the units and the value entered from the user to make the conversion.
         """    
-        if self.unit_from == 'kilometres' and self.unit_to == 'metre':
+        if self.unit_from == 'kilometres' and self.unit_to == 'metres':
             converted_value = self.value * 1000
         elif self.unit_from == 'kilometres' and self.unit_to == 'miles':
-            converted_value = self.value * 0.6214
-        
+            converted_value = self.value * 1.60934
+        elif self.unit_from == 'metres' and self.unit_to == 'kilometres':
+            converted_value = self.value / 1000
+        elif self.unit_from == 'metres' and self.unit_to == 'miles':
+            converted_value = self.value * 0.000621371
+        elif self.unit_from == 'miles' and self.unit_to == 'kilometres':
+            converted_value = self.value * 1.60934
+        elif self.unit_from == 'miles' and self.unit_to == 'metres':
+            converted_value = self.value * 1609.34
+            
         print(f'{self.value} {self.unit_from}  =  {converted_value:.2f} {self.unit_to}')
         
         repeat()
     
-
         
 def start_up():
     """
