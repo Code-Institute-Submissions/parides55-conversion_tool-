@@ -39,7 +39,7 @@ def make_selection():
     while True:        
         print()
         conversion_selection = input('Select a number:\n')
-        if validate_conversion_selection(conversion_selection):
+        if validate_selection(conversion_selection):
             print("Valid selection")
 
         if conversion_selection == '1':
@@ -51,7 +51,7 @@ def make_selection():
         
     return None
 
-def validate_conversion_selection(selection):
+def validate_selection(selection):
     """
     Validates the user's input.
     """
@@ -127,18 +127,20 @@ def start_unit_conversions():
     print('Available Corvesion')
     print(AVAILABLE_CONVERSIONS)
     print()
+    
     while True:
+        
         unit_from = input("Enter a unit you would like to convert from :")
         unit_to = input("Enter a unit you would like to convert to :")
-        #check(unit_from, unit_to)
+
         if validate_input(unit_from, unit_to):
             value = int(input(f"Enter the amount of {unit_from} to convert to {unit_to} :"))
             to_calculate = Calculator(unit_from, unit_to, value)
             to_calculate.make_conversion()
             break
+        
     return None        
     
- 
 class Calculator:
     """
     Takes the values and units and makes the conversion.
@@ -171,6 +173,7 @@ class Calculator:
         print(f'{self.value} {self.unit_from}  =  {converted_value:.2f} {self.unit_to}')
         
         repeat()
+    
     
         
 def start_up():
