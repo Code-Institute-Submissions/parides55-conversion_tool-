@@ -23,6 +23,15 @@ response_currencies = requests.request("GET", url)
 dict_currency = json.loads(response_currencies.text)
 list_currency = list(dict_currency.items())
 
+def check_run_again_input(x):
+    try:
+        if x != 'yes' and x != 'no':
+            raise ValueError(f'Please selecte "yes" or "no"'
+                             f'You have typed {x}')
+    except ValueError as e:
+        print(f'Invalid input! {e}')
+        return False
+    return True   
 
 def run_again():
     """
@@ -31,15 +40,18 @@ def run_again():
     making another conversion or exit the program.
     """
     print()
-    answer = input(
-        "Would you like to make another conversion? (yes/no)\n").lower()
-
-    if answer == 'yes':
-        start_up()
-    else:
-        print()
-        print("Thank you for using the CONVERSION TOOL\n")
-
+    while True:
+        answer = input(
+            "Would you like to make another conversion? (yes/no)\n").lower()
+        if (check_run_again_input(answer)):
+            if answer == 'yes':
+                start_up()
+                break
+            else:
+                print()
+                print("Thank you for using the CONVERSION TOOL\n")
+                break
+    return None
 
 def make_selection():
     """
@@ -239,7 +251,7 @@ class Calculator:
         if self.unit_from == 'km' and self.unit_to == 'meters':
             answer = u.convert_to(self.value * u.km, u.meters).n()
             print(f'{self.value} {self.unit_from} is {answer}')
-        elif self.unit_from == 'metres' and self.unit_to == 'km':
+        elif self.unit_from == 'meters' and self.unit_to == 'km':
             answer = u.convert_to(self.value * u.meters, u.km).n()
             print(f'{self.value} {self.unit_from} is {answer}')
         elif self.unit_from == 'km' and self.unit_to == 'miles':
