@@ -22,6 +22,8 @@ url = "https://api.frankfurter.app/currencies"
 response_currencies = requests.request("GET", url)
 dict_currency = json.loads(response_currencies.text)
 list_currency = list(dict_currency.items())
+
+
 def run_again():
     """
     A function which is called after every conversion is made
@@ -93,7 +95,7 @@ def check_currency_codes(value1, value2):
     except ValueError as e:
         print(f"Wrong Input!{e}")
         return False
-
+ 
     return True
 
 
@@ -230,11 +232,11 @@ class Calculator:
         self.value = value
         
     def dist_calculation(self):
-        if self.unit_from == 'km' and self.unit_to == 'metres':
-            answer = u.convert_to(self.value * u.km, u.m).n()
+        if self.unit_from == 'km' and self.unit_to == 'meters':
+            answer = u.convert_to(self.value * u.km, u.meters).n()
             print(f'{self.value} {self.unit_from} is {answer}')
-        elif self.unit_from == 'metres' and self.unit_to == 'km':
-            answer = u.convert_to(self.value * u.m, u.km).n()
+        elif self.unit_from == 'meters' and self.unit_to == 'km':
+            answer = u.convert_to(self.value * u.meters, u.km).n()
             print(f'{self.value} {self.unit_from} is {answer}') 
         elif self.unit_from == 'km' and self.unit_to == 'miles':
             answer = u.convert_to(self.value * u.km, u.miles).n()
