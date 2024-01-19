@@ -1,16 +1,16 @@
 import requests
 import json
 import sys
+import sympy.physics.units as u
 import mpmath
 sys.modules['sympy.mpmath'] = mpmath
-import sympy.physics.units as u
 
 CONVERSINOS = [
         ('(1)', 'Currency Conversion'),
         ('(2)', 'Unit Conversion'),
     ]
-AVAILABLE_CONVERSIONS_LENGTH = ['feet', 'miles', 'inches', 'meters', 'km'] 
-AVAILABLE_CONVERSIONS_MASS = ['grams', 'tonne', 'pounds', 'kg'] 
+AVAILABLE_CONVERSIONS_LENGTH = ['feet', 'miles', 'inches', 'meters', 'km']
+AVAILABLE_CONVERSIONS_MASS = ['grams', 'tonne', 'pounds', 'kg']
 CATEGORIES = [
     ('(1)', 'Length'),
     ('(2)', 'Mass')
@@ -65,15 +65,15 @@ def make_selection():
     return None
 
 
-def validate_selection(selection):
+def validate_selection(sel):
     """
     Validates the user's input.
     """
     try:
-        if selection != '1' and selection != '2' or isinstance(selection, str) is False:
+        if sel != '1' and sel != '2' or isinstance(sel, str) is False:
             raise ValueError(
                 f'Select 1 for Curency or 2 for Unit Conversion.'
-                f'You have selected "{selection}"'
+                f'You have selected "{sel}"'
                 )
     except ValueError as e:
         print(f'Invalid Selection! {e}')
@@ -84,18 +84,18 @@ def validate_selection(selection):
 
 def check_currency_codes(value1, value2):
     try:
-        if not value1 in dict_currency:
+        if value1 not in dict_currency:
             raise ValueError(f'Please type a code from the list above.'
-                f'For example, for euros type EUR.'
-                f'You have typed "{value1}"')
-        if not value2 in dict_currency:
+                             f'For example, for euros type EUR.'
+                             f'You have typed "{value1}"')
+        if value2 not in dict_currency:
             raise ValueError(f'Please type a code from the list above.'
-                f'For example, for euros type EUR.'
-                f'You have typed "{value2}"')
+                             f'For example, for euros type EUR.'
+                             f'You have typed "{value2}"')
     except ValueError as e:
         print(f"Wrong Input!{e}")
         return False
- 
+
     return True
 
 
@@ -111,12 +111,12 @@ def calculate_currency():
     print()
 
     while True:
-        
+
         from_rate = str(input(
             "Enter a currency code to convert from (eg.EUR) :").upper())
         to_rate = str(input(
             "Enter a currency code to convert to (eg.USD) :").upper())
-        
+
         if (check_currency_codes(from_rate, to_rate)):
             amount = float(input(
                 f'Enter an amount of {from_rate} to convert to {to_rate} :'
@@ -125,12 +125,13 @@ def calculate_currency():
                 f'https://api.frankfurter.app/latest?amount={amount}&from={from_rate}&to={to_rate}'
                 )
             print(
-                f"{amount} {from_rate} is {amount_converted.json()['rates'][to_rate]} {to_rate}"
+                f"{amount} {from_rate} is"
+                f"{amount_converted.json()['rates'][to_rate]} {to_rate}"
                 )
             run_again()
             break
 
-    return None   
+    return None
 
 
 def start_unit_conversions():
@@ -143,7 +144,7 @@ def start_unit_conversions():
     print('UNIT CONVERSION\n')
     print('CATEGORIES')
     print()
-    for x,y in CATEGORIES:
+    for x, y in CATEGORIES:
         print(f'{x} - {y}')
 
     while True:
@@ -157,7 +158,7 @@ def start_unit_conversions():
             if category_input == '2':
                 mass_selection()
                 break
-                
+
     return None
 
 
@@ -176,14 +177,17 @@ def check_category(num):
 
 
 def check_value(num1, num2):
-    AVAILABLE_CONVERSIONS = AVAILABLE_CONVERSIONS_LENGTH + AVAILABLE_CONVERSIONS_MASS
+    AVAIL_CONVER = AVAILABLE_CONVERSIONS_LENGTH + AVAILABLE_CONVERSIONS_MASS
     try:
-        if not num1 in AVAILABLE_CONVERSIONS:
-            raise ValueError(f'Please select a unit from the above list. You have input {num1}')
-        if not num2 in AVAILABLE_CONVERSIONS:
-            raise ValueError(f'Please select a unit from the above list. You have input {num2}')
+        if num1 not in AVAIL_CONVER:
+            raise ValueError(f'Please select a unit from the above list.'
+                             f' You have input {num1}')
+        if num2 not in AVAIL_CONVER:
+            raise ValueError(f'Please select a unit from the above list.'
+                             f' You have input {num2}')
         if num1 == num2:
-            raise ValueError('Please select different values. You have selected the same values')
+            raise ValueError(f'Please select different values.'
+                             f' You have selected the same values')
     except ValueError as e:
         print(f'Wrong Input!{e}')
         return False
@@ -198,7 +202,7 @@ def mass_selection():
     while True:
         unit_from = input("Enter a unit you would like to convert from :")
         unit_to = input("Enter a unit you would like to convert to :")
-        
+
         if check_value(unit_from, unit_to):
             value = int(input(
                 f"Enter the amount of {unit_from} to convert to {unit_to} :"))
@@ -215,7 +219,7 @@ def lengtn_selection():
     while True:
         unit_from = input("Enter a unit you would like to convert from :")
         unit_to = input("Enter a unit you would like to convert to :")
-        
+
         if check_value(unit_from, unit_to):
             value = int(input(
                 f"Enter the amount of {unit_from} to convert to {unit_to} :"))
@@ -225,19 +229,19 @@ def lengtn_selection():
 
 
 class Calculator:
-    
+
     def __init__(self, unit_from, unit_to, value):
         self.unit_from = unit_from
         self.unit_to = unit_to
         self.value = value
-        
+
     def dist_calculation(self):
         if self.unit_from == 'km' and self.unit_to == 'meters':
             answer = u.convert_to(self.value * u.km, u.meters).n()
             print(f'{self.value} {self.unit_from} is {answer}')
-        elif self.unit_from == 'meters' and self.unit_to == 'km':
+        elif self.unit_from == 'metres' and self.unit_to == 'km':
             answer = u.convert_to(self.value * u.meters, u.km).n()
-            print(f'{self.value} {self.unit_from} is {answer}') 
+            print(f'{self.value} {self.unit_from} is {answer}')
         elif self.unit_from == 'km' and self.unit_to == 'miles':
             answer = u.convert_to(self.value * u.km, u.miles).n()
             print(f'{self.value} {self.unit_from} is {answer}')
@@ -293,14 +297,14 @@ class Calculator:
             answer = u.convert_to(self.value * u.feet, u.inches).n()
             print(f'{self.value} {self.unit_from} is {answer}')
         run_again()
-            
+
     def mass_calculation(self):
         if self.unit_from == 'kg' and self.unit_to == 'grams':
             answer = u.convert_to(self.value * u.kg, u.grams).n()
             print(f'{self.value} {self.unit_from} is {answer}')
         elif self.unit_from == 'grams' and self.unit_to == 'kg':
             answer = u.convert_to(self.value * u.grams, u.kg).n()
-            print(f'{self.value} {self.unit_from} is {answer}') 
+            print(f'{self.value} {self.unit_from} is {answer}')
         elif self.unit_from == 'kg' and self.unit_to == 'tonne':
             answer = u.convert_to(self.value * u.kg, u.tonne).n()
             print(f'{self.value} {self.unit_from} is {answer}')
