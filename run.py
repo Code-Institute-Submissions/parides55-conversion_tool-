@@ -29,6 +29,12 @@ AVAILABLE_CONVERSIONS = [
     ('litres', 'gallons(uk)'),
 ]
 
+# fetches a dictionary of all currencies used in the frankfurter api
+# and returns a list
+url = "https://api.frankfurter.app/currencies"
+response_currencies = requests.request("GET", url)
+dict_currency = json.loads(response_currencies.text)
+list_currency = list(dict_currency.items())
 
 def make_selection():
     """
@@ -82,6 +88,23 @@ def validate_input(str1, str2):
             return True
 
 
+def check_codes(value1, value2):
+    try:
+        if not value1 in dict_currency:
+            raise ValueError(f'Please type a code from the list above.'
+                f'For example, for euros type EUR.'
+                f'You have typed "{value1}"')
+        if not value2 in dict_currency:
+            raise ValueError(f'Please type a code from the list above.'
+                f'For example, for euros type EUR.'
+                f'You have typed "{value2}"')
+    except ValueError as e:
+        print(f"Wrong Input!{e}")
+        return False
+
+    return True
+
+
 def repeat():
     """
     A function which is called after every conversion is made
@@ -106,36 +129,31 @@ def calculate_currency():
     """
     print()
     print('CURRENCY CONVERSION\n')
-
-    # fetches a dictionary of all currencies used in the frankfurter api
-    # and returns a list
-    url = "https://api.frankfurter.app/currencies"
-    response_currencies = requests.request("GET", url)
-    dict_currency = json.loads(response_currencies.text)
-    list_currency = list(dict_currency.items())
     print('Available Currency Codes to use\n')
     print(list_currency)
     print()
 
-    from_rate = str(input(
-        "Enter the currency code you would like to convert from (eg.EUR) :"
-        ).upper())
-    to_rate = str(input(
-        "Enter the currency code you would like to convert to (eg.USD) :"
-        ).upper())
+    while True:
+        
+        from_rate = str(input(
+            "Enter a currency code to convert from (eg.EUR) :").upper())
+        to_rate = str(input(
+            "Enter a currency code to convert to (eg.USD) :").upper())
+        
+        if (check_codes(from_rate, to_rate)):
+            amount = float(input(
+                f'Enter an amount of {from_rate} to convert to {to_rate} :'
+                ))
+            amount_converted = requests.get(
+                f'https://api.frankfurter.app/latest?amount={amount}&from={from_rate}&to={to_rate}'
+                )
+            print(
+                f"{amount} {from_rate} is {amount_converted.json()['rates'][to_rate]} {to_rate}"
+                )
+            repeat()
+            break
 
-    amount = float(input(
-        f'Enter an amount of {from_rate} you would like to convert to {to_rate} :'
-        ))
-    amount_converted = requests.get(
-        f'https://api.frankfurter.app/latest?amount={amount}&from={from_rate}&to={to_rate}'
-        )
-
-    print(
-        f"{amount} {from_rate} is {amount_converted.json()['rates'][to_rate]} {to_rate}"
-        )
-
-    repeat()
+    return None   
 
 
 def start_unit_conversions():
