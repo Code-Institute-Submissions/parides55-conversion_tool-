@@ -231,7 +231,6 @@ def select_category():
         print(f'{x} - {y}')
 
     while True:
-        
         print()
         category_input = input("Choose a category to satrt :\n")
 
@@ -260,7 +259,8 @@ def mass_selection():
         if check_unit(unit_from, unit_to):
             while True:
                 str_value = input(
-                    f"Enter an amount of {unit_from} to convert to {unit_to}:\n")
+                    f'Enter an amount of {unit_from} to convert'
+                    f' to {unit_to}:\n')
                 print()
                 if (check_value(str_value)):
                     value = float(str_value)
@@ -284,7 +284,8 @@ def lengtn_selection():
         if check_unit(unit_from, unit_to):
             while True:
                 str_value = input(
-                    f"Enter an amount of {unit_from} to convert to {unit_to}:\n")
+                    f'Enter an amount of {unit_from} to convert'
+                    f' to {unit_to}:\n')
                 print()
                 if (check_value(str_value)):
                     value = float(str_value)
