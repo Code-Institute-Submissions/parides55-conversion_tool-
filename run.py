@@ -32,7 +32,7 @@ def validate_selection(sel):
         if sel != '1' and sel != '2' or isinstance(sel, str) is False:
             raise ValueError(
                 f'Select 1 for Curency or 2 for Unit Conversion.'
-                f'You have selected "{sel}"'
+                f'\nYou have selected "{sel}"'
                 )
     except ValueError as e:
         print(f'Invalid Selection! {e}')
@@ -45,15 +45,15 @@ def check_currency_codes(value1, value2):
     try:
         if value1 not in dict_currency:
             raise ValueError(f'Please type a code from the list above.'
-                             f'For example, for euros type EUR.'
-                             f'You have typed "{value1}"')
+                             f'\nFor example, for euros type EUR.'
+                             f'\nYou have typed "{value1}"')
         if value2 not in dict_currency:
             raise ValueError(f'Please type a code from the list above.'
-                             f'For example, for euros type EUR.'
-                             f'You have typed "{value2}"')
+                             f'\nFor example, for euros type EUR.'
+                             f'\nYou have typed "{value2}"')
         if value1 == value2:
             raise ValueError(f'Please select different values.'
-                             f' You have selected the same values')
+                             f'\nYou have selected the same values')
     except ValueError as e:
         print(f"Wrong Input!{e}")
         return False
@@ -79,7 +79,7 @@ def check_category(num):
         if num != '1' and num != '2' or isinstance(num, str) is False:
             raise ValueError(
                 f'Select 1 for Length Conversion or 2 for Mass Conversion.'
-                f'You have selected "{num}"'
+                f'\nYou have selected "{num}"'
                 )
     except ValueError as e:
         print(f'Invalid Selection! {e}')
@@ -93,13 +93,13 @@ def check_unit(num1, num2):
     try:
         if num1 not in AVAIL_CONVER:
             raise ValueError(f'Please select a unit from the above list.'
-                             f' You have input {num1}')
+                             f'\nYou have input {num1}')
         if num2 not in AVAIL_CONVER:
             raise ValueError(f'Please select a unit from the above list.'
-                             f' You have input {num2}')
+                             f'\nYou have input {num2}')
         if num1 == num2:
             raise ValueError(f'Please select different values.'
-                             f' You have selected the same values')
+                             f'\nYou have selected the same values')
     except ValueError as e:
         print(f'Wrong Input!{e}')
         return False
@@ -110,7 +110,7 @@ def check_value(val):
     try:
         if [float(val)] == str:
             raise ValueError(
-                f'Please enter a number. You have entered "{val}"'
+                f'Please enter a number.\nYou have entered "{val}"'
                 )
     except ValueError as e:
         print(f'Invalid input. {e}')
@@ -122,7 +122,7 @@ def check_run_again_input(x):
     try:
         if x != 'yes' and x != 'no':
             raise ValueError(f'Please selecte "yes" or "no"'
-                             f' You have typed "{x}"')
+                             f'\nYou have typed "{x}"')
     except ValueError as e:
         print(f'Invalid input! {e}')
         return False
@@ -137,6 +137,7 @@ def run_again():
     """
     print()
     while True:
+        print()
         answer = input(
             "Would you like to make another conversion? (yes/no)\n").lower()
         if (check_run_again_input(answer)):
@@ -162,7 +163,8 @@ def make_selection():
         print()
         conversion_selection = input('Select a number:\n')
         if validate_selection(conversion_selection):
-            print("Valid selection")
+            print()
+            print(f'You have selected {conversion_selection}')
 
         if conversion_selection == '1':
             calculate_currency()
@@ -187,14 +189,16 @@ def calculate_currency():
 
     while True:
         from_rate = str(input(
-            "Enter a currency code to convert from (eg.EUR) :").upper())
+            "Enter a currency code to convert from (eg.EUR) :\n").upper())
+        print()
         to_rate = str(input(
-            "Enter a currency code to convert to (eg.USD) :").upper())
+            "Enter a currency code to convert to (eg.USD) :\n").upper())
+        print()
 
         if (check_currency_codes(from_rate, to_rate)):
             while True:
                 str_amount = input(
-                 f'Enter an amount of {from_rate} to convert to {to_rate} :'
+                 f'Enter an amount of {from_rate} to convert to {to_rate} :\n'
                 )
                 if (check_amount(str_amount)):
                     amount = float(str_amount)
@@ -202,8 +206,9 @@ def calculate_currency():
                         f'https://api.frankfurter.app/latest?amount={amount}'
                         f'&from={from_rate}&to={to_rate}'
                         )
+                    print()
                     print(
-                        f"{amount} {from_rate} is"
+                        f"{amount} {from_rate} is "
                         f"{amount_converted.json()['rates'][to_rate]}"
                         f"{to_rate}"
                         )
@@ -226,8 +231,9 @@ def select_category():
         print(f'{x} - {y}')
 
     while True:
-
-        category_input = input("Choose a category to satrt :")
+        
+        print()
+        category_input = input("Choose a category to satrt :\n")
 
         if check_category(category_input):
             if category_input == '1':
@@ -246,13 +252,16 @@ def mass_selection():
     print(AVAILABLE_CONVERSIONS_MASS)
     print()
     while True:
-        unit_from = input("Enter a unit you would like to convert from :")
-        unit_to = input("Enter a unit you would like to convert to :")
+        unit_from = input("Enter a unit you would like to convert from :\n")
+        print()
+        unit_to = input("Enter a unit you would like to convert to :\n")
+        print()
 
         if check_unit(unit_from, unit_to):
             while True:
                 str_value = input(
-                    f"Enter an amount of {unit_from} to convert to {unit_to}:")
+                    f"Enter an amount of {unit_from} to convert to {unit_to}:\n")
+                print()
                 if (check_value(str_value)):
                     value = float(str_value)
                     to_calculate = Calculator(unit_from, unit_to, value)
@@ -267,13 +276,16 @@ def lengtn_selection():
     print(AVAILABLE_CONVERSIONS_LENGTH)
     print()
     while True:
-        unit_from = input("Enter a unit you would like to convert from :")
-        unit_to = input("Enter a unit you would like to convert to :")
+        unit_from = input("Enter a unit you would like to convert from :\n")
+        print()
+        unit_to = input("Enter a unit you would like to convert to :\n")
+        print()
 
         if check_unit(unit_from, unit_to):
             while True:
                 str_value = input(
-                    f"Enter an amount of {unit_from} to convert to {unit_to}:")
+                    f"Enter an amount of {unit_from} to convert to {unit_to}:\n")
+                print()
                 if (check_value(str_value)):
                     value = float(str_value)
                     to_calculate = Calculator(unit_from, unit_to, value)
@@ -396,6 +408,7 @@ def start_up():
     """
     Run all programms
     """
+    print()
     print("What would you like to convert?")
     print()
 
@@ -405,5 +418,4 @@ def start_up():
 
 
 print("CONVERSION TOOL")
-print()
 start_up()
