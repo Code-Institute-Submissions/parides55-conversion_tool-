@@ -75,7 +75,7 @@ At the end of each conversion the user is asked if another conversion is needed 
 The Data model of this program uses mainly functions to run which are called in sequence to achieve the appropriate actions and a Class where the categories of the unit measurements are stored as class objects.
 
 To design the flow of the this program I used flow charts from [Lucidcharts](https://www.lucidchart.com/pages/landing?utm_source=google&utm_medium=cpc&utm_campaign=_chart_en_tier1_mixed_search_brand_exact_&km_CPC_CampaignId=1490375427&km_CPC_AdGroupID=55688909257&km_CPC_Keyword=lucidchart&km_CPC_MatchType=e&km_CPC_ExtensionID=&km_CPC_Network=g&km_CPC_AdPosition=&km_CPC_Creative=442433236001&km_CPC_TargetID=kwd-33511936169&km_CPC_Country=1006528&km_CPC_Device=c&km_CPC_placement=&km_CPC_target=&gad_source=1&gclid=Cj0KCQiA-62tBhDSARIsAO7twbZK25INDZxdISoGwumDsnnDW3jnGbGMJ4cLderstF-_CwUACp2M7jIaAvLdEALw_wcB) as shown in the diagram below.
-<flowchart>
+![Flowchart](assets/README_screenshots/Conversion_Tool%20_flowchart_opti.jpeg)
 The user can choose what conversions to make through a series of options presented on the screen. For every selection and for every input the user is asked to make, there is always a validation check for that selection or that input, to avoid crashing the program through the built-in functions of Python (e.g. the float() will give a ValueError if a string is insert and the program will stop) and to keep the continuation and the smooth flow of the program to achieve the desire outcome and to maintain a safe and positive UX to the user.
 
 ## Testing
