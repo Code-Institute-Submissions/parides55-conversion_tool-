@@ -88,7 +88,7 @@ I have manually tested this project by doing the following:
 
 ## Bugs
 
-Throughout my testing a few conversions would not work or return the expected value. That was because of typos in the code of the conversions, which were correct and the code functions as it suppose to.
+Throughout my testing a few conversions would not work or return the expected value. That was because of typos in the code of the conversions, which were corrected and the code functions as it suppose to.
 
 ## Validator Testing
 
