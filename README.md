@@ -10,7 +10,7 @@ This program offers the opportunity to the user to make currency and unit conver
 
 Click here to use the program
 
-![Responsive mockup](assets\README_documents\responsive_mockup_opti.jpg)
+![Responsive mockup](assets/README_screenshots/responsive_mockup_opti.jpg)
 
 <details>
 
@@ -37,7 +37,7 @@ Click here to use the program
 <hr>
 
 When the program first runs, it provides the user with some selections, where the user can choose what to convert, Currency or Units.
-![StartUp screen](assets\README_documents\start_up_screen_opti.jpg)
+![StartUp screen](assets\README_screenshots\start_up_screen_opti.jpg)
 
 If Currency Conversion is selected, immediately a list of all available currency codes is shown to clearly indicate to the user what codes can be selected.
 ![Currency screen](assets\README_documents\currency_screen_opti.jpg)
