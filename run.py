@@ -23,59 +23,6 @@ response_currencies = requests.request("GET", url)
 dict_currency = json.loads(response_currencies.text)
 list_currency = list(dict_currency.items())
 
-def check_run_again_input(x):
-    try:
-        if x != 'yes' and x != 'no':
-            raise ValueError(f'Please selecte "yes" or "no"'
-                             f'You have typed {x}')
-    except ValueError as e:
-        print(f'Invalid input! {e}')
-        return False
-    return True   
-
-def run_again():
-    """
-    A function which is called after every conversion is made
-    and gives the option to the user to choose to continue
-    making another conversion or exit the program.
-    """
-    print()
-    while True:
-        answer = input(
-            "Would you like to make another conversion? (yes/no)\n").lower()
-        if (check_run_again_input(answer)):
-            if answer == 'yes':
-                start_up()
-                break
-            else:
-                print()
-                print("Thank you for using the CONVERSION TOOL\n")
-                break
-    return None
-
-def make_selection():
-    """
-    This function takes user's selections,
-    validates the selection made from the user by calling the
-    validate_conversion_selection function
-    and calls the approprite conversion function.
-    """
-
-    while True:
-        print()
-        conversion_selection = input('Select a number:\n')
-        if validate_selection(conversion_selection):
-            print("Valid selection")
-
-        if conversion_selection == '1':
-            calculate_currency()
-            break
-        elif conversion_selection == '2':
-            start_unit_conversions()
-            break
-
-    return None
-
 
 def validate_selection(sel):
     """
@@ -104,11 +51,127 @@ def check_currency_codes(value1, value2):
             raise ValueError(f'Please type a code from the list above.'
                              f'For example, for euros type EUR.'
                              f'You have typed "{value2}"')
+        if value1 == value2:
+            raise ValueError(f'Please select different values.'
+                             f' You have selected the same values')
     except ValueError as e:
         print(f"Wrong Input!{e}")
         return False
 
     return True
+
+
+def check_amount(currency):
+    try:
+        if [float(currency)] == str:
+            raise ValueError(
+                f'Please enter a number. You have entered "{currency}"'
+                )
+    except ValueError as e:
+        print(f'Enter a number. {e}')
+        return False
+
+    return True
+
+
+def check_category(num):
+    try:
+        if num != '1' and num != '2' or isinstance(num, str) is False:
+            raise ValueError(
+                f'Select 1 for Length Conversion or 2 for Mass Conversion.'
+                f'You have selected "{num}"'
+                )
+    except ValueError as e:
+        print(f'Invalid Selection! {e}')
+        return False
+
+    return True
+
+
+def check_unit(num1, num2):
+    AVAIL_CONVER = AVAILABLE_CONVERSIONS_LENGTH + AVAILABLE_CONVERSIONS_MASS
+    try:
+        if num1 not in AVAIL_CONVER:
+            raise ValueError(f'Please select a unit from the above list.'
+                             f' You have input {num1}')
+        if num2 not in AVAIL_CONVER:
+            raise ValueError(f'Please select a unit from the above list.'
+                             f' You have input {num2}')
+        if num1 == num2:
+            raise ValueError(f'Please select different values.'
+                             f' You have selected the same values')
+    except ValueError as e:
+        print(f'Wrong Input!{e}')
+        return False
+    return True
+
+
+def check_value(val):
+    try:
+        if [float(val)] == str:
+            raise ValueError(
+                f'Please enter a number. You have entered "{val}"'
+                )
+    except ValueError as e:
+        print(f'Invalid input. {e}')
+        return False
+    return True
+
+
+def check_run_again_input(x):
+    try:
+        if x != 'yes' and x != 'no':
+            raise ValueError(f'Please selecte "yes" or "no"'
+                             f' You have typed "{x}"')
+    except ValueError as e:
+        print(f'Invalid input! {e}')
+        return False
+    return True
+
+
+def run_again():
+    """
+    A function which is called after every conversion is made
+    and gives the option to the user to choose to continue
+    making another conversion or exit the program.
+    """
+    print()
+    while True:
+        answer = input(
+            "Would you like to make another conversion? (yes/no)\n").lower()
+        if (check_run_again_input(answer)):
+            if answer == 'yes':
+                start_up()
+                break
+            else:
+                print()
+                print("Thank you for using the CONVERSION TOOL\n")
+                break
+    return None
+
+
+def make_selection():
+    """
+    This function takes user's selections,
+    validates the selection made from the user by calling the
+    validate_conversion_selection function
+    and calls the approprite conversion function.
+    """
+
+    while True:
+        print()
+        conversion_selection = input('Select a number:\n')
+        if validate_selection(conversion_selection):
+            print("Valid selection")
+
+        if conversion_selection == '1':
+            calculate_currency()
+            break
+        elif conversion_selection == '2':
+            select_category()
+            break
+
+    return None
 
 
 def calculate_currency():
@@ -123,30 +186,33 @@ def calculate_currency():
     print()
 
     while True:
-
         from_rate = str(input(
             "Enter a currency code to convert from (eg.EUR) :").upper())
         to_rate = str(input(
             "Enter a currency code to convert to (eg.USD) :").upper())
 
         if (check_currency_codes(from_rate, to_rate)):
-            amount = float(input(
-                f'Enter an amount of {from_rate} to convert to {to_rate} :'
-                ))
-            amount_converted = requests.get(
-                f'https://api.frankfurter.app/latest?amount={amount}&from={from_rate}&to={to_rate}'
+            while True:
+                str_amount = input(
+                 f'Enter an amount of {from_rate} to convert to {to_rate} :'
                 )
-            print(
-                f"{amount} {from_rate} is"
-                f"{amount_converted.json()['rates'][to_rate]} {to_rate}"
-                )
-            run_again()
-            break
+                if (check_amount(str_amount)):
+                    amount = float(str_amount)
+                    amount_converted = requests.get(
+                        f'https://api.frankfurter.app/latest?amount={amount}'
+                        f'&from={from_rate}&to={to_rate}'
+                        )
+                    print(
+                        f"{amount} {from_rate} is"
+                        f"{amount_converted.json()['rates'][to_rate]}"
+                        f"{to_rate}"
+                        )
+                    run_again()
+                    break
+            return None
 
-    return None
 
-
-def start_unit_conversions():
+def select_category():
     """
     When it's called shows the availabel unit conversions and
     asks the user to make inputs. These inputs then are passed to the
@@ -174,38 +240,6 @@ def start_unit_conversions():
     return None
 
 
-def check_category(num):
-    try:
-        if num != '1' and num != '2' or isinstance(num, str) is False:
-            raise ValueError(
-                f'Select 1 for Length Conversio or 2 for Mass Conversio.'
-                f'You have selected "{num}"'
-                )
-    except ValueError as e:
-        print(f'Invalid Selection! {e}')
-        return False
-
-    return True
-
-
-def check_value(num1, num2):
-    AVAIL_CONVER = AVAILABLE_CONVERSIONS_LENGTH + AVAILABLE_CONVERSIONS_MASS
-    try:
-        if num1 not in AVAIL_CONVER:
-            raise ValueError(f'Please select a unit from the above list.'
-                             f' You have input {num1}')
-        if num2 not in AVAIL_CONVER:
-            raise ValueError(f'Please select a unit from the above list.'
-                             f' You have input {num2}')
-        if num1 == num2:
-            raise ValueError(f'Please select different values.'
-                             f' You have selected the same values')
-    except ValueError as e:
-        print(f'Wrong Input!{e}')
-        return False
-    return True
-
-
 def mass_selection():
     print()
     print('Available Conversion')
@@ -215,12 +249,16 @@ def mass_selection():
         unit_from = input("Enter a unit you would like to convert from :")
         unit_to = input("Enter a unit you would like to convert to :")
 
-        if check_value(unit_from, unit_to):
-            value = int(input(
-                f"Enter the amount of {unit_from} to convert to {unit_to} :"))
-            to_calculate = Calculator(unit_from, unit_to, value)
-            to_calculate.mass_calculation()
-            break
+        if check_unit(unit_from, unit_to):
+            while True:
+                str_value = input(
+                    f"Enter an amount of {unit_from} to convert to {unit_to}:")
+                if (check_value(str_value)):
+                    value = float(str_value)
+                    to_calculate = Calculator(unit_from, unit_to, value)
+                    to_calculate.mass_calculation()
+                    break
+            return None
 
 
 def lengtn_selection():
@@ -232,12 +270,16 @@ def lengtn_selection():
         unit_from = input("Enter a unit you would like to convert from :")
         unit_to = input("Enter a unit you would like to convert to :")
 
-        if check_value(unit_from, unit_to):
-            value = int(input(
-                f"Enter the amount of {unit_from} to convert to {unit_to} :"))
-            to_calculate = Calculator(unit_from, unit_to, value)
-            to_calculate.dist_calculation()
-            break
+        if check_unit(unit_from, unit_to):
+            while True:
+                str_value = input(
+                    f"Enter an amount of {unit_from} to convert to {unit_to}:")
+                if (check_value(str_value)):
+                    value = float(str_value)
+                    to_calculate = Calculator(unit_from, unit_to, value)
+                    to_calculate.length_calculation()
+                    break
+            return None
 
 
 class Calculator:
@@ -247,7 +289,7 @@ class Calculator:
         self.unit_to = unit_to
         self.value = value
 
-    def dist_calculation(self):
+    def length_calculation(self):
         if self.unit_from == 'km' and self.unit_to == 'meters':
             answer = u.convert_to(self.value * u.km, u.meters).n()
             print(f'{self.value} {self.unit_from} is {answer}')
