@@ -1,8 +1,4 @@
-<hr>
-
 # ***CONVERSION TOOL***
-
-<hr>
 
 Conversion Tool is a Python terminal program, which runs in the Code Institute mock terminal on Heroku.
 
@@ -30,11 +26,8 @@ Click here to use the program
 
 </details>
 
-<hr>
-
 ## How to use it
 
-<hr>
 
 When the program first runs, it provides the user with some selections, where the user can choose what to convert, Currency or Units.
 ![StartUp screen](assets/README_screenshots/start_up_screen_opti.jpg)
@@ -51,11 +44,7 @@ In both cases the user will be asked to input the currencies or the units that w
 At the end of each conversion the user is asked if another conversion is needed or not. If yes, the user is taken to the initial selections between Currency and Unit conversions and if no, a Thank you message appears.
 ![End message screen](assets/README_screenshots/end_message_screen_opti.jpg)
 
-<hr>
-
 ## Features
-
-<hr>
 
 #### Existing Features
 
@@ -81,19 +70,11 @@ At the end of each conversion the user is asked if another conversion is needed 
 - More unit conversions they may be included (eg Time, Temperature, Area conversions)
 - More tools can be offered (eg calculator, calendar)
 
-<hr>
-
 ## Data Model
-
-<hr>
 
 The Data model used
 
-<hr>
-
 ## Testing
-
-<hr>
 
 I have manually tested this project by doing the following:
 
@@ -101,29 +82,17 @@ I have manually tested this project by doing the following:
   - Extensively use the pogram making a lot of different combinations of inputs by inserting strings when numbers are expected, inserting the same value of units and selecting numbers out of bounds
   - Tested in my local terminal (VS Code) and the Code Institute Heroku terminal
 
-<hr>
-
 ## Bugs
-
-<hr>
 
 Throughout my testing a few conversions would not work or return the expected value. That was because of typos in the code of the conversions, which were correct and the code functions as it suppose to.
 
-<hr>
-
 ## Validator Testing
-
-<hr>
 
 - PEP8
   - No errors were returned from [PEP8online.com](https://pep8ci.herokuapp.com/) 
 ![PEP8 screnshot](assets/README_screenshots/PEP8_validator_opti.jpg)
 
-<hr>
-
 ## Deployment
-
-<hr>
 
 This project was deployed using Code Institute's mock terminal for Heroku.
 
@@ -135,11 +104,7 @@ This project was deployed using Code Institute's mock terminal for Heroku.
       - Link the Heroku app to repository
       - Click on Deploy
 
-<hr>
-
 ## Credits
-
-<hr>
 
   - Code Institute for the deployment terminal
   - All validation checks for errors run with a <b><em>While</em></b> loop and use a try-except expression in their associated functions, which was taken from the [Love_Sandwiches project](https://learn.codeinstitute.net/courses/course-v1:CodeInstitute+LS101+2021_T1/courseware/293ee9d8ff3542d3b877137ed81b9a5b/c92755338ef548f28cc31a7c3d5bfb46/) of the Code Institute LMS.
